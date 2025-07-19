@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CustomArt Tees</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <h1 class="logo">CustomArt Tees</h1>
+    <nav>
+      <a href="#customize">Customize</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h2>Wear Your Imagination</h2>
+    <p>Create and wear custom-designed tees that speak your style.</p>
+    <a href="#customize" class="btn">Start Customizing</a>
+  </section>
+
+  <!-- Customize Section -->
+  <section id="customize" class="customize">
+    <h3>Customize Your T-Shirt</h3>
+    <p>Select a shirt color and upload your design.</p>
+
+    <div class="custom-box">
+      <canvas id="shirtCanvas" width="300" height="400"></canvas>
+
+      <div class="controls">
+        <label for="colorPicker">T-Shirt Color:</label>
+        <input type="color" id="colorPicker" value="#ffffff" />
+
+        <label for="imageUpload">Upload Design:</label>
+        <input type="file" id="imageUpload" accept="image/*" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <section id="gallery" class="gallery">
+    <h3>Our Gallery</h3>
+    <div class="grid">
+      <img src="images/art1.jpg" alt="Design 1" />
+      <img src="images/art2.jpg" alt="Design 2" />
+      <img src="images/art3.jpg" alt="Design 3" />
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="contact">
+    <h3>Contact Us</h3>
+    <p>Have a question or idea? Email us at <a href="mailto:hello@customart.com">hello@customart.com</a></p>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 CustomArt Tees. Made with 💡 and 🎨.</p>
+  </footer>
+
+  <!-- JavaScript for Customizer -->
+  <script>
+    const canvas = document.getElementById("shirtCanvas");
+    const ctx = canvas.getContext("2d");
+
+    const colorPicker = document.getElementById("colorPicker");
+    const imageUpload = document.getElementById("imageUpload");
+
+    function drawShirt(color = "#ffffff", image = null) {
+      ctx.fillStyle = color;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      if (image) {
+        const scale = 150 / image.width;
+        ctx.drawImage(image, 75, 150, image.width * scale, image.height * scale);
+      }
+    }
+
+    colorPicker.addEventListener("input", () => {
+      drawShirt(colorPicker.value);
+    });
+
+    imageUpload.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const img = new Image();
+      img.onload = () => {
+        drawShirt(colorPicker.value, img);
+      };
+      img.src = URL.createObjectURL(file);
+    });
+
+    drawShirt("#ffffff");
+  </script>
+</body>
+</html>
